@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>tarea2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #444;
+        }
+
+        #info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 600px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #dato {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        #dato:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        #x, #z {
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: 48%;
+            background-color: #fff;
+            min-height: 200px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #x h3, #z h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #007bff;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item {
+            padding: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        .item button {
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .item button:hover {
+            background-color: #0056b3;
+        }
+
+        .item button:active {
+            background-color: #003f8a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registre sus datos</h1>
+    <form id="info">
+        <label for="dato">Ingrese su información:</label>
+        <input type="text" id="dato" placeholder="Escribe aquí...">
+        <button type="submit">Realizar</button>
+        <button type="button" id="boton">Realizado</button>
+    </form>
+
+    <h2>Datos ingresados</h2>
+    <div class="container">
+        <div id="x"> 
+            <h3>Realizar:</h3> 
+            <ul id="resultadoA"></ul> 
+        </div>
+        <div id="z"> 
+            <h3>Realizado:</h3> 
+            <ul id="resultadoB"></ul> 
+        </div>
+    </div>
+
+    <script>
+        const formulario = document.getElementById('info');
+        const resultadoA = document.getElementById('resultadoA');
+        const resultadoB = document.getElementById('resultadoB');
+
+        formulario.addEventListener('submit', function(evento) {
+            evento.preventDefault();
+            const dato = document.getElementById('dato').value;
+            if (dato) {
+                agregarElemento(resultadoA, dato);
+                formulario.reset();
+            }
+        });
+
+        document.getElementById('boton').onclick = function() {
+            const dato = document.getElementById('dato').value;
+            if (dato) {
+                agregarElemento(resultadoB, dato);
+                formulario.reset();
+            }
+        };
+
+        function agregarElemento(lista, dato) {
+            const li = document.createElement('li');
+            li.className = 'item';
+            li.textContent = dato;
+
+            const moverBtn = document.createElement('button');
+            moverBtn.textContent = 'Mover a ' + (lista === resultadoA ? 'Realizado' : 'Realizar');
+            moverBtn.onclick = function() {
+
+                if (li.parentNode === resultadoA) {
+                    resultadoB.appendChild(li);
+                    moverBtn.textContent = 'Mover a Realizar';
+                } else {
+                    resultadoA.appendChild(li);
+                    moverBtn.textContent = 'Mover a Realizado';
+                }
+            };
+
+            const eliminarBtn = document.createElement('button');
+            eliminarBtn.textContent = 'Eliminar';
+            eliminarBtn.onclick = function() {
+                li.remove();
+            };
+
+            li.appendChild(moverBtn);
+            li.appendChild(eliminarBtn);
+            lista.appendChild(li);
+        }
+    </script>
+</body>
+</html>

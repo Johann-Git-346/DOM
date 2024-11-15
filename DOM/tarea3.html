@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>tarea3</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    width: calc(100% - 100px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:hover td {
+    background-color: #eaeaea;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+#resultado {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#busquedasPrevias {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+</style>
+</head>
+<body>
+
+    <h1>BUSCAR INFORMACIONES</h1>
+    <input type="text" id="terminoBusqueda" placeholder="Buscar término...">
+    <button onclick="buscarEnTabla()">Buscar</button>
+
+    <div class="container">
+        <p id="resultado"></p>
+        <p id="busquedasPrevias"></p>
+
+        <table id="tablaDiccionario">
+            <thead>
+                <tr>
+                    <th>Palabra</th>
+                    <th>Definición</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>JavaScript</td>
+                    <td>Lenguaje de programación interpretado.</td>
+                </tr>
+                <tr>
+                    <td>HTML</td>
+                    <td>Lenguaje de marcado para estructurar la web.</td>
+                </tr>
+                <tr>
+                    <td>CSS</td>
+                    <td>Estilos en cascada para dar diseño a la web.</td>
+                </tr>
+                <tr>
+                    <td>DOM</td>
+                    <td>Modelo de objetos del documento.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+        function buscarEnTabla() {
+            const terminoBusqueda = document.getElementById("terminoBusqueda").value.toLowerCase().trim();
+            const tabla = document.getElementById("tablaDiccionario");
+            const filas = tabla.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            let contador = 0;
+
+            for (let fila of filas) {
+                fila.classList.remove("highlight");
+            }
+
+            if (terminoBusqueda) {
+                for (let fila of filas) {
+                    const celdas = fila.getElementsByTagName("td");
+                    for (let celda of celdas) {
+                        if (celda.textContent.toLowerCase().includes(terminoBusqueda)) {
+                            fila.classList.add("highlight");
+                            contador++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            const resultado = document.getElementById("resultado");
+            resultado.textContent = `Se encontró el término "${terminoBusqueda}" ${contador} vez/veces en la tabla.`;
+
+            document.getElementById("terminoBusqueda").value = '';
+        }
+    </script>
+
+</body>
+</html>
